@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-wedc_%kw@$u32-sd%=y&022l5ynayrrn3_-q*r%2@th)bt&*6e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'https://sisnutrilab.herokuapp.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'sisnutrilab.herokuapp.com']
 
 
 # Application definition
