@@ -6,7 +6,7 @@
     <h3>Sistema de Gerenciamento de Clínica Funcional</h3>
 </div>
 
-![](https://github.com/rogeriodelphi/sisnutrilab/imagens/sisnutrilab1.png)
+![](https://github.com/rogeriodelphi/sisnutrilab/blob/master/imagens/sisnutrilab1.png)
 ```bash
 Projeto proprietário desenvolvido em Python 3 no Linux, testado no GNU/Linux e Windows.  
 ```
