@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'autenticacao/css/css.css' %}">
+{% endblock %}
 
 {% block 'titulo' %}Cadastre-se{% endblock %}
 
@@ -9,7 +14,7 @@
                 <div class="logo_sidebar">
 
                     <h2 class="logo">
-                        <img class="img_logo_sidebar" src="">
+                        <img class="img_logo_sidebar" src="{% static 'autenticacao/img/logo_nutri_lab.png' %}">
                     </h2>
 
                 </div>
@@ -23,7 +28,7 @@
                     <p class="sub-titulo">Crie sua conta</p>
                     <hr>
 
-                    <form action="" method="">
+                    <form action="{% url 'cadastro' %}" method="POST">
                         <span class="bold">Nome de usuário</span>
                         <input class="form-control input-form" name="usuario" type="text" placeholder="Digite seu nome...">
                         <br>
