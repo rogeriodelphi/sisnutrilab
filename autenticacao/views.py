@@ -4,11 +4,13 @@ from django.http import HttpResponse
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib import auth
+import os
+from django.conf import settings
 
-from autenticacao.utils import password_is_valid
+from autenticacao.utils import password_is_valid, email_html
 
 
-def cadastro(request):
+def cadastro(request, path_template=None):
     if request.method == "GET":
         if request.user.is_authenticated:
             return redirect('/')
@@ -30,6 +32,10 @@ def cadastro(request):
                 is_active=False
             )
             user.save()
+
+            path_template = os.path.join(settings.BASE_DIR, 'autenticacao/templates/emails/cadastro_confirmado.html')
+            email_html(path_template, 'Cadastro confirmado', [email, ], username=username)
+
             messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado com sucesso.')
             return redirect('/auth/logar')
         except:
