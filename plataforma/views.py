@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from .models import Paciente, DadosPaciente
 from datetime import datetime
-
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required(login_url='/auth/logar/')
 def pacientes(request):
@@ -104,10 +104,6 @@ def dados_paciente(request, id):
         paciente.save()
         messages.add_message(request, constants.SUCCESS, 'Dados cadastrado com sucesso')
         return redirect('/dados_paciente/')
-
-
-from django.views.decorators.csrf import csrf_exempt
-
 
 @login_required(login_url='/auth/logar/')
 @csrf_exempt
