@@ -18,3 +18,24 @@ class Paciente(models.Model):
         db_table = 'Paciente'
         verbose_name = 'Paciente'
         verbose_name_plural = 'Pacientes'
+
+
+class DadosPaciente(models.Model):
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    data = models.DateTimeField()
+    peso = models.IntegerField()
+    altura = models.IntegerField()
+    percentual_gordura = models.IntegerField()
+    percentual_musculo = models.IntegerField()
+    colesterol_hdl = models.IntegerField()
+    colesterol_ldl = models.IntegerField()
+    colesterol_total = models.IntegerField()
+    trigliceridios = models.IntegerField()
+
+    def __str__(self):
+        return f"Paciente({self.paciente.nome}, {self.peso})"
+
+    class Meta:
+        db_table = 'DadosPaciente'
+        verbose_name = 'Dado do Paciente'
+        verbose_name_plural = 'Dados do Paciente'

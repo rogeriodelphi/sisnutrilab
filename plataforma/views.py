@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
-from .models import Paciente
+from .models import Paciente, DadosPaciente
+from datetime import datetime
+
 
 @login_required(login_url='/auth/logar/')
 def pacientes(request):
@@ -17,6 +19,7 @@ def pacientes(request):
         email = request.POST.get('email')
         telefone = request.POST.get('telefone')
 
+        # não permitir campos vazios
         if (len(nome.strip()) == 0) or (len(sexo.strip()) == 0) or (len(idade.strip()) == 0) or (
                 len(email.strip()) == 0) or (len(telefone.strip()) == 0):
             messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
@@ -56,13 +59,14 @@ def dados_paciente_listar(request):
 
 @login_required(login_url='/auth/logar/')
 def dados_paciente(request, id):
-    paciente = get_object_or_404(Pacientes, id=id)
+    paciente = get_object_or_404(Paciente, id=id)
     if not paciente.nutri == request.user:
         messages.add_message(request, constants.ERROR, 'Esse paciente não é seu!')
         return redirect('/dados_paciente/')
 
     if request.method == "GET":
-        return render(request, 'dados_paciente.html', {'paciente': paciente})
+        dados_paciente = DadosPaciente.objects.filter(paciente=paciente)
+        return render(request, 'dados_paciente.html', {'paciente': paciente, 'dados_paciente': dados_paciente})
     elif request.method == "POST":
         peso = request.POST.get('peso')
         altura = request.POST.get('altura')
@@ -74,4 +78,29 @@ def dados_paciente(request, id):
         colesterol_total = request.POST.get('ctotal')
         triglicerídios = request.POST.get('triglicerídios')
 
+        # não permitir campos vazios
+        if (len(peso.strip()) == 0) or (len(altura.strip()) == 0) or (len(gordura.strip()) == 0) or (
+            len(musculo.strip()) == 0) or (len(hdl.strip()) == 0) or (len(ldl.strip()) == 0) or (
+            len(colesterol_total.strip()) == 0 or (len(triglicerídios.strip()) == 0)):
+                messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+                return redirect('/pacientes/')
+
+        # verifica se o campos são numéricos
+        if not peso.isnumeric():
+            messages.add_message(request, constants.ERROR, 'Digite um peso válido!')
+            return redirect('/dados_paciente/')
+
+        paciente = DadosPaciente(paciente=paciente,
+                                 data=datetime.now(),
+                                 peso=peso,
+                                 altura=altura,
+                                 percentual_gordura=gordura,
+                                 percentual_musculo=musculo,
+                                 colesterol_hdl=hdl,
+                                 colesterol_ldl=ldl,
+                                 colesterol_total=colesterol_total,
+                                 trigliceridios=triglicerídios)
+
+        paciente.save()
+        messages.add_message(request, constants.SUCCESS, 'Dados cadastrado com sucesso')
         return redirect('/dados_paciente/')
