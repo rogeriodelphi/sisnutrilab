@@ -14,7 +14,8 @@ Projeto proprietário desenvolvido em Python 3 no Linux, testado no GNU/Linux e 
 ## Implementações
 ```bash
 - Cadastro de usuários;
-- Autenticação;
+- Autenticação; 
+- Criação e envio de Token;
 - Envio de E-mails com template;
 - Arquivos estáticos;
 - Confirmação e ativação de conta por link;
