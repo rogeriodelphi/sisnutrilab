@@ -39,3 +39,33 @@ class DadosPaciente(models.Model):
         db_table = 'DadosPaciente'
         verbose_name = 'Dado do Paciente'
         verbose_name_plural = 'Dados do Paciente'
+
+
+class Refeicao(models.Model):
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=50)
+    horario = models.TimeField()
+    carboidratos = models.IntegerField()
+    proteinas = models.IntegerField()
+    gorduras = models.IntegerField()
+
+    def __str__(self):
+        return self.titulo
+
+    class Meta:
+        db_table = 'Refeicao'
+        verbose_name = 'Refeição'
+        verbose_name_plural = 'Refeições'
+
+class Opcao(models.Model):
+    refeicao = models.ForeignKey(Refeicao, on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to="opcao")
+    descricao = models.TextField()
+
+    def __str__(self):
+        return self.descricao
+
+    class Meta:
+        db_table = 'Opcao'
+        verbose_name = 'Opção'
+        verbose_name_plural = 'Opções'
