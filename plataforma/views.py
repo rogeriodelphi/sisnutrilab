@@ -129,7 +129,8 @@ def plano_alimentar(request, id):
         return redirect('/dados_paciente/')
 
     if request.method == "GET":
-        return render(request, 'plano_alimentar.html', {'paciente': paciente})
+        r1 = Refeicao.objects.filter(paciente=paciente).order_by('horario')
+        return render(request, 'plano_alimentar.html', {'paciente': paciente, 'refeicao': r1})
 
 
 def refeicao(request, id_paciente):
@@ -151,8 +152,6 @@ def refeicao(request, id_paciente):
                       carboidratos=carboidratos,
                       proteinas=proteinas,
                       gorduras=gorduras)
-
         r1.save()
-
         messages.add_message(request, constants.SUCCESS, 'Refeição cadastrada')
         return redirect(f'/plano_alimentar/{id_paciente}')
