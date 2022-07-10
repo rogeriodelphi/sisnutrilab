@@ -13,10 +13,10 @@ Projeto proprietário desenvolvido em Python 3 no Linux, testado no GNU/Linux e 
 
 ## Implementações
 ```bash
-- Cadastro de usuários;
+- Cadastro de Usuários, Pacientes, Dados do Paciente, Refeição e Tipo de Refeição;
 - Autenticação; 
 - Criação e envio de Token;
-- Envio de E-mails com template;
+- Envio de e-mails com template;
 - Arquivos estáticos;
 - Confirmação e ativação de conta por link;
 - Login/Logout;
