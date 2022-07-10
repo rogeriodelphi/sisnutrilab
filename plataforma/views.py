@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
-from .models import Paciente, DadosPaciente, Refeicao
+from .models import Paciente, DadosPaciente, Refeicao, Opcao
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 
@@ -126,11 +126,12 @@ def plano_alimentar(request, id):
     paciente = get_object_or_404(Paciente, id=id)
     if not paciente.nutri == request.user:
         messages.add_message(request, constants.ERROR, 'Esse paciente não é seu!')
-        return redirect('/dados_paciente/')
+        return redirect('/plano_alimentar/')
 
     if request.method == "GET":
         r1 = Refeicao.objects.filter(paciente=paciente).order_by('horario')
-        return render(request, 'plano_alimentar.html', {'paciente': paciente, 'refeicao': r1})
+        opcao = Opcao.objects.all()
+        return render(request, 'plano_alimentar.html', {'paciente': paciente, 'refeicao': r1, 'opcao': opcao})
 
 
 def refeicao(request, id_paciente):
@@ -154,4 +155,20 @@ def refeicao(request, id_paciente):
                       gorduras=gorduras)
         r1.save()
         messages.add_message(request, constants.SUCCESS, 'Refeição cadastrada')
+        return redirect(f'/plano_alimentar/{id_paciente}')
+
+
+def opcao(request, id_paciente):
+    if request.method == "POST":
+        id_refeicao = request.POST.get('refeicao')
+        imagem = request.FILES.get('imagem')
+        descricao = request.POST.get("descricao")
+
+        o1 = Opcao(refeicao_id=id_refeicao,
+                   imagem=imagem,
+                   descricao=descricao)
+
+        o1.save()
+
+        messages.add_message(request, constants.SUCCESS, 'Opcao cadastrada')
         return redirect(f'/plano_alimentar/{id_paciente}')
