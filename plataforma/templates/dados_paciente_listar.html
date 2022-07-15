@@ -3,14 +3,7 @@
 {% load static %}
 
 {% block 'plataforma' %}
-    {% if messages %}
-        <br>
-        {% for message in messages %}
-            <div class="alert {{message.tags}}">
-                {{message}}
-            </div>
-        {% endfor %}
-    {% endif %}
+    {% include 'partials/mensagens.html' %}
     <br>
 		<h1 class="titulo">Escolha o paciente</h1>
     <div  class="row">

@@ -3,14 +3,7 @@
 {% load static %}
 
 {% block 'plataforma'  %}
-    {% if messages %}
-        <br>
-        {% for message in messages %}
-            <div class="alert {{message.tags}}">
-                {{message}}
-            </div>
-        {% endfor %}
-    {% endif %}
+    {% include 'partials/mensagens.html' %}
     <br>
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modal">
       Novo paciente
